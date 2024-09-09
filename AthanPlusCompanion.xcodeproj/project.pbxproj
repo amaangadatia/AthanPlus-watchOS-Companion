@@ -1,0 +1,452 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		5180EC732C8F90A700C68EEC /* AthanPlusCompanion Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 5180EC722C8F90A700C68EEC /* AthanPlusCompanion Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		5180EC782C8F90A700C68EEC /* AthanPlusCompanionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5180EC772C8F90A700C68EEC /* AthanPlusCompanionApp.swift */; };
+		5180EC7A2C8F90A700C68EEC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5180EC792C8F90A700C68EEC /* ContentView.swift */; };
+		5180EC7C2C8F90A800C68EEC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5180EC7B2C8F90A800C68EEC /* Assets.xcassets */; };
+		5180EC7F2C8F90A800C68EEC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5180EC7E2C8F90A800C68EEC /* Preview Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		5180EC742C8F90A700C68EEC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5180EC662C8F90A700C68EEC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5180EC712C8F90A700C68EEC;
+			remoteInfo = "AthanPlusCompanion Watch App";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		5180EC852C8F90A800C68EEC /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				5180EC732C8F90A700C68EEC /* AthanPlusCompanion Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		5180EC6C2C8F90A700C68EEC /* AthanPlusCompanion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AthanPlusCompanion.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5180EC722C8F90A700C68EEC /* AthanPlusCompanion Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AthanPlusCompanion Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5180EC772C8F90A700C68EEC /* AthanPlusCompanionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthanPlusCompanionApp.swift; sourceTree = "<group>"; };
+		5180EC792C8F90A700C68EEC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		5180EC7B2C8F90A800C68EEC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5180EC7E2C8F90A800C68EEC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		5180EC6F2C8F90A700C68EEC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5180EC652C8F90A700C68EEC = {
+			isa = PBXGroup;
+			children = (
+				5180EC762C8F90A700C68EEC /* AthanPlusCompanion Watch App */,
+				5180EC6D2C8F90A700C68EEC /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		5180EC6D2C8F90A700C68EEC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5180EC6C2C8F90A700C68EEC /* AthanPlusCompanion.app */,
+				5180EC722C8F90A700C68EEC /* AthanPlusCompanion Watch App.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5180EC762C8F90A700C68EEC /* AthanPlusCompanion Watch App */ = {
+			isa = PBXGroup;
+			children = (
+				5180EC772C8F90A700C68EEC /* AthanPlusCompanionApp.swift */,
+				5180EC792C8F90A700C68EEC /* ContentView.swift */,
+				5180EC7B2C8F90A800C68EEC /* Assets.xcassets */,
+				5180EC7D2C8F90A800C68EEC /* Preview Content */,
+			);
+			path = "AthanPlusCompanion Watch App";
+			sourceTree = "<group>";
+		};
+		5180EC7D2C8F90A800C68EEC /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				5180EC7E2C8F90A800C68EEC /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		5180EC6B2C8F90A700C68EEC /* AthanPlusCompanion */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5180EC862C8F90A800C68EEC /* Build configuration list for PBXNativeTarget "AthanPlusCompanion" */;
+			buildPhases = (
+				5180EC6A2C8F90A700C68EEC /* Resources */,
+				5180EC852C8F90A800C68EEC /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5180EC752C8F90A700C68EEC /* PBXTargetDependency */,
+			);
+			name = AthanPlusCompanion;
+			productName = AthanPlusCompanion;
+			productReference = 5180EC6C2C8F90A700C68EEC /* AthanPlusCompanion.app */;
+			productType = "com.apple.product-type.application.watchapp2-container";
+		};
+		5180EC712C8F90A700C68EEC /* AthanPlusCompanion Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5180EC822C8F90A800C68EEC /* Build configuration list for PBXNativeTarget "AthanPlusCompanion Watch App" */;
+			buildPhases = (
+				5180EC6E2C8F90A700C68EEC /* Sources */,
+				5180EC6F2C8F90A700C68EEC /* Frameworks */,
+				5180EC702C8F90A700C68EEC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AthanPlusCompanion Watch App";
+			productName = "AthanPlusCompanion Watch App";
+			productReference = 5180EC722C8F90A700C68EEC /* AthanPlusCompanion Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		5180EC662C8F90A700C68EEC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					5180EC6B2C8F90A700C68EEC = {
+						CreatedOnToolsVersion = 15.0.1;
+					};
+					5180EC712C8F90A700C68EEC = {
+						CreatedOnToolsVersion = 15.0.1;
+					};
+				};
+			};
+			buildConfigurationList = 5180EC692C8F90A700C68EEC /* Build configuration list for PBXProject "AthanPlusCompanion" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 5180EC652C8F90A700C68EEC;
+			productRefGroup = 5180EC6D2C8F90A700C68EEC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				5180EC6B2C8F90A700C68EEC /* AthanPlusCompanion */,
+				5180EC712C8F90A700C68EEC /* AthanPlusCompanion Watch App */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		5180EC6A2C8F90A700C68EEC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5180EC702C8F90A700C68EEC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5180EC7F2C8F90A800C68EEC /* Preview Assets.xcassets in Resources */,
+				5180EC7C2C8F90A800C68EEC /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5180EC6E2C8F90A700C68EEC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5180EC7A2C8F90A700C68EEC /* ContentView.swift in Sources */,
+				5180EC782C8F90A700C68EEC /* AthanPlusCompanionApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		5180EC752C8F90A700C68EEC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5180EC712C8F90A700C68EEC /* AthanPlusCompanion Watch App */;
+			targetProxy = 5180EC742C8F90A700C68EEC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		5180EC802C8F90A800C68EEC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		5180EC812C8F90A800C68EEC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		5180EC832C8F90A800C68EEC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"AthanPlusCompanion Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = 87PP889727;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = AthanPlusCompanion;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKWatchOnly = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Amaan-Gadatia.AthanPlusCompanion.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Debug;
+		};
+		5180EC842C8F90A800C68EEC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"AthanPlusCompanion Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = 87PP889727;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = AthanPlusCompanion;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKWatchOnly = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Amaan-Gadatia.AthanPlusCompanion.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Release;
+		};
+		5180EC872C8F90A800C68EEC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 87PP889727;
+				INFOPLIST_KEY_CFBundleDisplayName = AthanPlusCompanion;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Amaan-Gadatia.AthanPlusCompanion";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		5180EC882C8F90A800C68EEC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 87PP889727;
+				INFOPLIST_KEY_CFBundleDisplayName = AthanPlusCompanion;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Amaan-Gadatia.AthanPlusCompanion";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		5180EC692C8F90A700C68EEC /* Build configuration list for PBXProject "AthanPlusCompanion" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5180EC802C8F90A800C68EEC /* Debug */,
+				5180EC812C8F90A800C68EEC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5180EC822C8F90A800C68EEC /* Build configuration list for PBXNativeTarget "AthanPlusCompanion Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5180EC832C8F90A800C68EEC /* Debug */,
+				5180EC842C8F90A800C68EEC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5180EC862C8F90A800C68EEC /* Build configuration list for PBXNativeTarget "AthanPlusCompanion" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5180EC872C8F90A800C68EEC /* Debug */,
+				5180EC882C8F90A800C68EEC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 5180EC662C8F90A700C68EEC /* Project object */;
+}
