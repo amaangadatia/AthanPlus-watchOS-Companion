@@ -12,6 +12,8 @@
 		5180EC7A2C8F90A700C68EEC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5180EC792C8F90A700C68EEC /* ContentView.swift */; };
 		5180EC7C2C8F90A800C68EEC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5180EC7B2C8F90A800C68EEC /* Assets.xcassets */; };
 		5180EC7F2C8F90A800C68EEC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5180EC7E2C8F90A800C68EEC /* Preview Assets.xcassets */; };
+		5180EC8A2C8F9B9B00C68EEC /* PrayerTimesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5180EC892C8F9B9B00C68EEC /* PrayerTimesModel.swift */; };
+		5180EC8D2C90204600C68EEC /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5180EC8C2C90204600C68EEC /* ExtensionDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +47,9 @@
 		5180EC792C8F90A700C68EEC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		5180EC7B2C8F90A800C68EEC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5180EC7E2C8F90A800C68EEC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		5180EC892C8F9B9B00C68EEC /* PrayerTimesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerTimesModel.swift; sourceTree = "<group>"; };
+		5180EC8B2C901E3700C68EEC /* AthanPlusCompanion-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "AthanPlusCompanion-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
+		5180EC8C2C90204600C68EEC /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,8 +83,11 @@
 		5180EC762C8F90A700C68EEC /* AthanPlusCompanion Watch App */ = {
 			isa = PBXGroup;
 			children = (
+				5180EC8B2C901E3700C68EEC /* AthanPlusCompanion-Watch-App-Info.plist */,
 				5180EC772C8F90A700C68EEC /* AthanPlusCompanionApp.swift */,
 				5180EC792C8F90A700C68EEC /* ContentView.swift */,
+				5180EC892C8F9B9B00C68EEC /* PrayerTimesModel.swift */,
+				5180EC8C2C90204600C68EEC /* ExtensionDelegate.swift */,
 				5180EC7B2C8F90A800C68EEC /* Assets.xcassets */,
 				5180EC7D2C8F90A800C68EEC /* Preview Content */,
 			);
@@ -192,7 +200,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5180EC8A2C8F9B9B00C68EEC /* PrayerTimesModel.swift in Sources */,
 				5180EC7A2C8F90A700C68EEC /* ContentView.swift in Sources */,
+				5180EC8D2C90204600C68EEC /* ExtensionDelegate.swift in Sources */,
 				5180EC782C8F90A700C68EEC /* AthanPlusCompanionApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -333,6 +343,7 @@
 				DEVELOPMENT_TEAM = 87PP889727;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "AthanPlusCompanion-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = AthanPlusCompanion;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
@@ -363,6 +374,7 @@
 				DEVELOPMENT_TEAM = 87PP889727;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "AthanPlusCompanion-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = AthanPlusCompanion;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
