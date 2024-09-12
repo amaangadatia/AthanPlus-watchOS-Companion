@@ -14,6 +14,12 @@
 		5180EC7F2C8F90A800C68EEC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5180EC7E2C8F90A800C68EEC /* Preview Assets.xcassets */; };
 		5180EC8A2C8F9B9B00C68EEC /* PrayerTimesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5180EC892C8F9B9B00C68EEC /* PrayerTimesModel.swift */; };
 		5180EC8D2C90204600C68EEC /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5180EC8C2C90204600C68EEC /* ExtensionDelegate.swift */; };
+		51CD3D692C91E7A700C5A75D /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51CD3D682C91E7A700C5A75D /* WidgetKit.framework */; };
+		51CD3D6B2C91E7A700C5A75D /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51CD3D6A2C91E7A700C5A75D /* SwiftUI.framework */; };
+		51CD3D6E2C91E7A700C5A75D /* ComplicationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CD3D6D2C91E7A700C5A75D /* ComplicationProvider.swift */; };
+		51CD3D702C91E7A800C5A75D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 51CD3D6F2C91E7A800C5A75D /* Assets.xcassets */; };
+		51CD3D742C91E7A800C5A75D /* ComplicationProviderExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 51CD3D662C91E7A700C5A75D /* ComplicationProviderExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		51CD3D792C920C7100C5A75D /* PrayerTimesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5180EC892C8F9B9B00C68EEC /* PrayerTimesModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,6 +29,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 5180EC712C8F90A700C68EEC;
 			remoteInfo = "AthanPlusCompanion Watch App";
+		};
+		51CD3D722C91E7A800C5A75D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5180EC662C8F90A700C68EEC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 51CD3D652C91E7A700C5A75D;
+			remoteInfo = ComplicationProviderExtension;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -38,6 +51,17 @@
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		51CD3D752C91E7A800C5A75D /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				51CD3D742C91E7A800C5A75D /* ComplicationProviderExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +74,14 @@
 		5180EC892C8F9B9B00C68EEC /* PrayerTimesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerTimesModel.swift; sourceTree = "<group>"; };
 		5180EC8B2C901E3700C68EEC /* AthanPlusCompanion-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "AthanPlusCompanion-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
 		5180EC8C2C90204600C68EEC /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
+		51CD3D662C91E7A700C5A75D /* ComplicationProviderExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ComplicationProviderExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		51CD3D682C91E7A700C5A75D /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		51CD3D6A2C91E7A700C5A75D /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		51CD3D6D2C91E7A700C5A75D /* ComplicationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationProvider.swift; sourceTree = "<group>"; };
+		51CD3D6F2C91E7A800C5A75D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		51CD3D712C91E7A800C5A75D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		51CD3D7A2C9217EF00C5A75D /* AthanPlusCompanion Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "AthanPlusCompanion Watch App.entitlements"; sourceTree = "<group>"; };
+		51CD3D7B2C92189500C5A75D /* ComplicationProviderExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ComplicationProviderExtension.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,13 +92,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		51CD3D632C91E7A700C5A75D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				51CD3D6B2C91E7A700C5A75D /* SwiftUI.framework in Frameworks */,
+				51CD3D692C91E7A700C5A75D /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		5180EC652C8F90A700C68EEC = {
 			isa = PBXGroup;
 			children = (
+				51CD3D7B2C92189500C5A75D /* ComplicationProviderExtension.entitlements */,
 				5180EC762C8F90A700C68EEC /* AthanPlusCompanion Watch App */,
+				51CD3D6C2C91E7A700C5A75D /* ComplicationProvider */,
+				51CD3D672C91E7A700C5A75D /* Frameworks */,
 				5180EC6D2C8F90A700C68EEC /* Products */,
 			);
 			sourceTree = "<group>";
@@ -76,6 +120,7 @@
 			children = (
 				5180EC6C2C8F90A700C68EEC /* AthanPlusCompanion.app */,
 				5180EC722C8F90A700C68EEC /* AthanPlusCompanion Watch App.app */,
+				51CD3D662C91E7A700C5A75D /* ComplicationProviderExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -83,6 +128,7 @@
 		5180EC762C8F90A700C68EEC /* AthanPlusCompanion Watch App */ = {
 			isa = PBXGroup;
 			children = (
+				51CD3D7A2C9217EF00C5A75D /* AthanPlusCompanion Watch App.entitlements */,
 				5180EC8B2C901E3700C68EEC /* AthanPlusCompanion-Watch-App-Info.plist */,
 				5180EC772C8F90A700C68EEC /* AthanPlusCompanionApp.swift */,
 				5180EC792C8F90A700C68EEC /* ContentView.swift */,
@@ -100,6 +146,25 @@
 				5180EC7E2C8F90A800C68EEC /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		51CD3D672C91E7A700C5A75D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				51CD3D682C91E7A700C5A75D /* WidgetKit.framework */,
+				51CD3D6A2C91E7A700C5A75D /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		51CD3D6C2C91E7A700C5A75D /* ComplicationProvider */ = {
+			isa = PBXGroup;
+			children = (
+				51CD3D6D2C91E7A700C5A75D /* ComplicationProvider.swift */,
+				51CD3D6F2C91E7A800C5A75D /* Assets.xcassets */,
+				51CD3D712C91E7A800C5A75D /* Info.plist */,
+			);
+			path = ComplicationProvider;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -129,15 +194,34 @@
 				5180EC6E2C8F90A700C68EEC /* Sources */,
 				5180EC6F2C8F90A700C68EEC /* Frameworks */,
 				5180EC702C8F90A700C68EEC /* Resources */,
+				51CD3D752C91E7A800C5A75D /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				51CD3D732C91E7A800C5A75D /* PBXTargetDependency */,
 			);
 			name = "AthanPlusCompanion Watch App";
 			productName = "AthanPlusCompanion Watch App";
 			productReference = 5180EC722C8F90A700C68EEC /* AthanPlusCompanion Watch App.app */;
 			productType = "com.apple.product-type.application";
+		};
+		51CD3D652C91E7A700C5A75D /* ComplicationProviderExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 51CD3D782C91E7A800C5A75D /* Build configuration list for PBXNativeTarget "ComplicationProviderExtension" */;
+			buildPhases = (
+				51CD3D622C91E7A700C5A75D /* Sources */,
+				51CD3D632C91E7A700C5A75D /* Frameworks */,
+				51CD3D642C91E7A700C5A75D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ComplicationProviderExtension;
+			productName = ComplicationProviderExtension;
+			productReference = 51CD3D662C91E7A700C5A75D /* ComplicationProviderExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -146,7 +230,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1500;
+				LastSwiftUpdateCheck = 1540;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					5180EC6B2C8F90A700C68EEC = {
@@ -154,6 +238,9 @@
 					};
 					5180EC712C8F90A700C68EEC = {
 						CreatedOnToolsVersion = 15.0.1;
+					};
+					51CD3D652C91E7A700C5A75D = {
+						CreatedOnToolsVersion = 15.4;
 					};
 				};
 			};
@@ -172,6 +259,7 @@
 			targets = (
 				5180EC6B2C8F90A700C68EEC /* AthanPlusCompanion */,
 				5180EC712C8F90A700C68EEC /* AthanPlusCompanion Watch App */,
+				51CD3D652C91E7A700C5A75D /* ComplicationProviderExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -193,6 +281,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		51CD3D642C91E7A700C5A75D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				51CD3D702C91E7A800C5A75D /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -207,6 +303,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		51CD3D622C91E7A700C5A75D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				51CD3D6E2C91E7A700C5A75D /* ComplicationProvider.swift in Sources */,
+				51CD3D792C920C7100C5A75D /* PrayerTimesModel.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -214,6 +319,11 @@
 			isa = PBXTargetDependency;
 			target = 5180EC712C8F90A700C68EEC /* AthanPlusCompanion Watch App */;
 			targetProxy = 5180EC742C8F90A700C68EEC /* PBXContainerItemProxy */;
+		};
+		51CD3D732C91E7A800C5A75D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 51CD3D652C91E7A700C5A75D /* ComplicationProviderExtension */;
+			targetProxy = 51CD3D722C91E7A800C5A75D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -335,8 +445,10 @@
 		5180EC832C8F90A800C68EEC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "AthanPlusCompanion Watch App/AthanPlusCompanion Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AthanPlusCompanion Watch App/Preview Content\"";
@@ -366,8 +478,10 @@
 		5180EC842C8F90A800C68EEC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "AthanPlusCompanion Watch App/AthanPlusCompanion Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AthanPlusCompanion Watch App/Preview Content\"";
@@ -428,6 +542,69 @@
 			};
 			name = Release;
 		};
+		51CD3D762C91E7A800C5A75D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = ComplicationProviderExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 87PP889727;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ComplicationProvider/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ComplicationProvider;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Amaan-Gadatia.AthanPlusCompanion.watchkitapp.ComplicationProvider";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.5;
+			};
+			name = Debug;
+		};
+		51CD3D772C91E7A800C5A75D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = ComplicationProviderExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 87PP889727;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ComplicationProvider/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ComplicationProvider;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Amaan-Gadatia.AthanPlusCompanion.watchkitapp.ComplicationProvider";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 10.5;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -454,6 +631,15 @@
 			buildConfigurations = (
 				5180EC872C8F90A800C68EEC /* Debug */,
 				5180EC882C8F90A800C68EEC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		51CD3D782C91E7A800C5A75D /* Build configuration list for PBXNativeTarget "ComplicationProviderExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				51CD3D762C91E7A800C5A75D /* Debug */,
+				51CD3D772C91E7A800C5A75D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

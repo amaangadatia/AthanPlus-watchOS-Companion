@@ -15,7 +15,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             if let refreshTask = task as? WKApplicationRefreshBackgroundTask {
                 PrayerTimesModel().fetch()
                 
-                refreshTask.setTaskCompletedWithSnapshot(false)
+                refreshTask.setTaskCompletedWithSnapshot(true)
             }
             else {
                 task.setTaskCompletedWithSnapshot(false)

@@ -7,7 +7,30 @@
 		<key>AthanPlusCompanion Watch App.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+		<key>ComplicationProviderExtension.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
 			<integer>0</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>5180EC6B2C8F90A700C68EEC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>5180EC712C8F90A700C68EEC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>51CD3D652C91E7A700C5A75D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>
