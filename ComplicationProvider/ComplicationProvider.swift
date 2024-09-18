@@ -114,10 +114,10 @@ struct PrayerComplicationView : View {
                 .fill(.black.gradient)
             VStack {
                 Text(entry.nextPrayerName)
-                    .font(.system(size: 15))
+                    .font(.system(size: 12))
                     .bold()
                 Text(entry.nextPrayerTime)
-                    .font(.system(size: 10))
+                    .font(.system(size: 11))
             }
         }
     }

@@ -13,13 +13,13 @@
 		5180EC7C2C8F90A800C68EEC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5180EC7B2C8F90A800C68EEC /* Assets.xcassets */; };
 		5180EC7F2C8F90A800C68EEC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5180EC7E2C8F90A800C68EEC /* Preview Assets.xcassets */; };
 		5180EC8A2C8F9B9B00C68EEC /* PrayerTimesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5180EC892C8F9B9B00C68EEC /* PrayerTimesModel.swift */; };
-		5180EC8D2C90204600C68EEC /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5180EC8C2C90204600C68EEC /* ExtensionDelegate.swift */; };
 		51CD3D692C91E7A700C5A75D /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51CD3D682C91E7A700C5A75D /* WidgetKit.framework */; };
 		51CD3D6B2C91E7A700C5A75D /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51CD3D6A2C91E7A700C5A75D /* SwiftUI.framework */; };
 		51CD3D6E2C91E7A700C5A75D /* ComplicationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CD3D6D2C91E7A700C5A75D /* ComplicationProvider.swift */; };
 		51CD3D702C91E7A800C5A75D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 51CD3D6F2C91E7A800C5A75D /* Assets.xcassets */; };
 		51CD3D742C91E7A800C5A75D /* ComplicationProviderExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 51CD3D662C91E7A700C5A75D /* ComplicationProviderExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		51CD3D792C920C7100C5A75D /* PrayerTimesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5180EC892C8F9B9B00C68EEC /* PrayerTimesModel.swift */; };
+		51F64E412C960502007797F5 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5180EC8C2C90204600C68EEC /* ExtensionDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -298,7 +298,7 @@
 			files = (
 				5180EC8A2C8F9B9B00C68EEC /* PrayerTimesModel.swift in Sources */,
 				5180EC7A2C8F90A700C68EEC /* ContentView.swift in Sources */,
-				5180EC8D2C90204600C68EEC /* ExtensionDelegate.swift in Sources */,
+				51F64E412C960502007797F5 /* ExtensionDelegate.swift in Sources */,
 				5180EC782C8F90A700C68EEC /* AthanPlusCompanionApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -456,7 +456,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "AthanPlusCompanion-Watch-App-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = AthanPlusCompanion;
+				INFOPLIST_KEY_CFBundleDisplayName = "Athan+";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -489,7 +489,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "AthanPlusCompanion-Watch-App-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = AthanPlusCompanion;
+				INFOPLIST_KEY_CFBundleDisplayName = "Athan+";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -26,39 +26,12 @@ struct ContentView: View {
                     .padding()
                     
                     // Table Rows (5 prayers)
-                    HStack {
-                        Text("Fajr")
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                        Text(prayerTimeModel.prayerTimes.data.iqamah.first?.fajr ?? "")
-                            .frame(maxWidth: .infinity, alignment: .trailing)
-                    }
-                    
-                    HStack {
-                        Text("Zuhr")
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                        Text(prayerTimeModel.prayerTimes.data.iqamah.first?.zuhr ?? "")
-                            .frame(maxWidth: .infinity, alignment: .trailing)
-                    }
-                    
-                    HStack {
-                        Text("Asr")
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                        Text(prayerTimeModel.prayerTimes.data.iqamah.first?.asr ?? "")
-                            .frame(maxWidth: .infinity, alignment: .trailing)
-                    }
-                    
-                    HStack {
-                        Text("Maghrib")
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                        Text(prayerTimeModel.prayerTimes.data.iqamah.first?.maghrib ?? "")
-                            .frame(maxWidth: .infinity, alignment: .trailing)
-                    }
-                    
-                    HStack {
-                        Text("Isha")
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                        Text(prayerTimeModel.prayerTimes.data.iqamah.first?.isha ?? "")
-                            .frame(maxWidth: .infinity, alignment: .trailing)
+                    ForEach(prayerTimeModel.prayerTimes.data.iqamah, id: \.date) { iqamah in
+                        rowView(prayer: "Fajr", time: iqamah.fajr)
+                        rowView(prayer: "Zuhr", time: iqamah.zuhr)
+                        rowView(prayer: "Asr", time: iqamah.asr)
+                        rowView(prayer: "Maghrib", time: iqamah.maghrib)
+                        rowView(prayer: "Isha", time: iqamah.isha)
                     }
                 }
                 .padding()
@@ -66,10 +39,18 @@ struct ContentView: View {
             .padding()
             .onAppear {
                 prayerTimeModel.fetch()
-                prayerTimeModel.scheduleNextBackgroundRefresh()
             }
         }
         .edgesIgnoringSafeArea(.top)
+    }
+    
+    func rowView(prayer: String, time: String) -> some View {
+        HStack {
+            Text(prayer)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            Text(time)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+        }
     }
 }
 
