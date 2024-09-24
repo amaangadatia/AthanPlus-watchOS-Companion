@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var prayerTimeModel = PrayerTimesModel()
+    @EnvironmentObject var prayerTimeModel: PrayerTimesModel
     
     var body: some View {
         List {
@@ -37,11 +37,11 @@ struct ContentView: View {
                 .padding()
             }
             .padding()
-            .onAppear {
-                prayerTimeModel.fetch()
-            }
         }
         .edgesIgnoringSafeArea(.top)
+        .task {
+            await prayerTimeModel.fetch()
+        }
     }
     
     func rowView(prayer: String, time: String) -> some View {

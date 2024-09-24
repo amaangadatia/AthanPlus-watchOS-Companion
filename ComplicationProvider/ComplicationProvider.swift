@@ -111,7 +111,7 @@ struct PrayerComplicationView : View {
     var body: some View {
         ZStack {
             Circle()
-                .fill(.black.gradient)
+                .fill(Color.gray.opacity(0.23))
             VStack {
                 Text(entry.nextPrayerName)
                     .font(.system(size: 12))

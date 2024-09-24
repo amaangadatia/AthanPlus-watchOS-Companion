@@ -7,7 +7,7 @@
 
 import Foundation
 import SwiftUI
-import WatchKit
+//import WatchKit
 
 // Main struct for the response
 struct PrayerTimesResponse: Codable {
@@ -56,7 +56,7 @@ struct Iqamah: Codable {
     }
 }
 
-
+@MainActor
 class PrayerTimesModel: ObservableObject {
     @Published var prayerTimes: PrayerTimesResponse = PrayerTimesResponse(
         status: "Unknown",
@@ -67,47 +67,39 @@ class PrayerTimesModel: ObservableObject {
     )
     
     // fetches the local mosque's prayer timings via an API call
-    func fetch() {
+    func fetch() async {
         guard let url = URL(string: "https://masjidal.com/api/v1/time/range?masjid_id=3OA87VLp") else {
             return
         }
-        
-        let task = URLSession.shared.dataTask(with: url) { [self] data, _, error in
-            guard let data = data, error == nil else {
-                return
-            }
-            
+
+        do {
+            let (data, _) = try await URLSession.shared.data(from: url)
+
             // Convert to JSON
-            do {
-                var prayerTimes = try JSONDecoder().decode(PrayerTimesResponse.self, from: data)
-                
-                // Format times for each salah and iqamah entry
-                for index in prayerTimes.data.salah.indices {
-                    prayerTimes.data.salah[index].fajr = formatTime(prayerTimes.data.salah[index].fajr) ?? prayerTimes.data.salah[index].fajr
-                    prayerTimes.data.salah[index].zuhr = formatTime(prayerTimes.data.salah[index].zuhr) ?? prayerTimes.data.salah[index].zuhr
-                    prayerTimes.data.salah[index].asr = formatTime(prayerTimes.data.salah[index].asr) ?? prayerTimes.data.salah[index].asr
-                    prayerTimes.data.salah[index].maghrib = formatTime(prayerTimes.data.salah[index].maghrib) ?? prayerTimes.data.salah[index].maghrib
-                    prayerTimes.data.salah[index].isha = formatTime(prayerTimes.data.salah[index].isha) ?? prayerTimes.data.salah[index].isha
-                }
-                
-                for index in prayerTimes.data.iqamah.indices {
-                    prayerTimes.data.iqamah[index].fajr = formatTime(prayerTimes.data.iqamah[index].fajr) ?? prayerTimes.data.iqamah[index].fajr
-                    prayerTimes.data.iqamah[index].zuhr = formatTime(prayerTimes.data.iqamah[index].zuhr) ?? prayerTimes.data.iqamah[index].zuhr
-                    prayerTimes.data.iqamah[index].asr = formatTime(prayerTimes.data.iqamah[index].asr) ?? prayerTimes.data.iqamah[index].asr
-                    prayerTimes.data.iqamah[index].maghrib = formatTime(prayerTimes.data.iqamah[index].maghrib) ?? prayerTimes.data.iqamah[index].maghrib
-                    prayerTimes.data.iqamah[index].isha = formatTime(prayerTimes.data.iqamah[index].isha) ?? prayerTimes.data.iqamah[index].isha
-                }
-                
-                DispatchQueue.main.async {
-                    self.prayerTimes = prayerTimes
-                    self.savePrayerTimesToSharedDefaults(prayerTimes: prayerTimes)
-                }
+            var fetchedPrayerTimes = try JSONDecoder().decode(PrayerTimesResponse.self, from: data)
+
+            // Format times for each salah and iqamah entry
+            for index in fetchedPrayerTimes.data.salah.indices {
+                fetchedPrayerTimes.data.salah[index].fajr = formatTime(fetchedPrayerTimes.data.salah[index].fajr) ?? fetchedPrayerTimes.data.salah[index].fajr
+                fetchedPrayerTimes.data.salah[index].zuhr = formatTime(fetchedPrayerTimes.data.salah[index].zuhr) ?? fetchedPrayerTimes.data.salah[index].zuhr
+                fetchedPrayerTimes.data.salah[index].asr = formatTime(fetchedPrayerTimes.data.salah[index].asr) ?? fetchedPrayerTimes.data.salah[index].asr
+                fetchedPrayerTimes.data.salah[index].maghrib = formatTime(fetchedPrayerTimes.data.salah[index].maghrib) ?? fetchedPrayerTimes.data.salah[index].maghrib
+                fetchedPrayerTimes.data.salah[index].isha = formatTime(fetchedPrayerTimes.data.salah[index].isha) ?? fetchedPrayerTimes.data.salah[index].isha
             }
-            catch {
-                print(error)
+
+            for index in fetchedPrayerTimes.data.iqamah.indices {
+                fetchedPrayerTimes.data.iqamah[index].fajr = formatTime(fetchedPrayerTimes.data.iqamah[index].fajr) ?? fetchedPrayerTimes.data.iqamah[index].fajr
+                fetchedPrayerTimes.data.iqamah[index].zuhr = formatTime(fetchedPrayerTimes.data.iqamah[index].zuhr) ?? fetchedPrayerTimes.data.iqamah[index].zuhr
+                fetchedPrayerTimes.data.iqamah[index].asr = formatTime(fetchedPrayerTimes.data.iqamah[index].asr) ?? fetchedPrayerTimes.data.iqamah[index].asr
+                fetchedPrayerTimes.data.iqamah[index].maghrib = formatTime(fetchedPrayerTimes.data.iqamah[index].maghrib) ?? fetchedPrayerTimes.data.iqamah[index].maghrib
+                fetchedPrayerTimes.data.iqamah[index].isha = formatTime(fetchedPrayerTimes.data.iqamah[index].isha) ?? fetchedPrayerTimes.data.iqamah[index].isha
             }
+
+            // Update the prayerTimes on the main thread safely
+            self.prayerTimes = fetchedPrayerTimes
+        } catch {
+            print(error)
         }
-        task.resume()
     }
     
     // Helper function to reformat the time
@@ -136,26 +128,6 @@ class PrayerTimesModel: ObservableObject {
             }
             catch {
                 print("Failed to encode prayer times: \(error)")
-            }
-        }
-    }
-    
-    // Schedule the next background refresh
-    func scheduleNextBackgroundRefresh() {
-        let calendar = Calendar.current
-        var dateCmpts = DateComponents()
-        dateCmpts.hour = 10
-        dateCmpts.minute = 0
-//        let nextUpdateDate = Calendar.current.date(byAdding: .day, value: 1, to: Date())!
-        
-        if let preferredDate = calendar.nextDate(after: Date(), matching: dateCmpts, matchingPolicy: .nextTime) {
-            WKExtension.shared().scheduleBackgroundRefresh(withPreferredDate: preferredDate, userInfo: nil) { error in
-                if let error = error {
-                    print("Error scheduling background refresh: \(error)")
-                }
-                else {
-                    print("Background refresh scheduled for: \(preferredDate)")
-                }
             }
         }
     }
