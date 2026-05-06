@@ -25,81 +25,211 @@ struct PrayerComplicationProvider: TimelineProvider {
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<PrayerComplicationEntry>) -> ()) {
-        if let prayerTimes = loadPrayerTimesFromSharedDefaults() {
-            let nextPrayer = getNextPrayerTime(from: prayerTimes)
-            let currentDate = Date()
-            
-            let entry = PrayerComplicationEntry(date: currentDate, nextPrayerName: nextPrayer.name, nextPrayerTime: nextPrayer.time)
-            let timeline = Timeline(entries: [entry], policy: .after(currentDate.addingTimeInterval(60 * 60)))
+        print("DEBUG getTimeline called")
+        
+        guard let prayerTimes = loadPrayerTimesFromSharedDefaults() else {
+            print("DEBUG loadPrayerTimes returned nil — showing placeholder")
+            let entry = PrayerComplicationEntry(date: Date(), nextPrayerName: "Fajr", nextPrayerTime: "5:00 AM")
+            let timeline = Timeline(entries: [entry], policy: .after(Date().addingTimeInterval(60 * 60)))
             completion(timeline)
-        } else {
-            let currentDate = Date()
-            let entry = PrayerComplicationEntry(date: currentDate, nextPrayerName: "Fajr", nextPrayerTime: "5:00 AM")
-            let timeline = Timeline(entries: [entry], policy: .after(currentDate.addingTimeInterval(60 * 60)))
-            completion(timeline)
+            return
         }
+        
+        print("DEBUG loadPrayerTimes succeeded")
+        
+        let entries = buildTimelineEntries(from: prayerTimes)
+        
+        // .atEnd tells WidgetKit to call getTimeline again after the last entry
+        // so it can fetch fresh data for the next day
+        let timeline = Timeline(entries: entries, policy: .atEnd)
+        completion(timeline)
+
+//        if let prayerTimes = loadPrayerTimesFromSharedDefaults() {
+//            print("DEBUG loadPrayerTimes succeeded")
+//            let nextPrayer = getNextPrayerTime(from: prayerTimes)
+//            let currentDate = Date()
+//            
+//            let entry = PrayerComplicationEntry(date: currentDate, nextPrayerName: nextPrayer.name, nextPrayerTime: nextPrayer.time)
+//            let timeline = Timeline(entries: [entry], policy: .after(currentDate.addingTimeInterval(60 * 60)))
+//            completion(timeline)
+//            return
+//        }
+//        else {
+//            print("DEBUG loadPrayerTimes returned nil - showing placeholder")
+//            let currentDate = Date()
+//            let entry = PrayerComplicationEntry(date: currentDate, nextPrayerName: "Fajr", nextPrayerTime: "5:00 AM")
+//            let timeline = Timeline(entries: [entry], policy: .after(currentDate.addingTimeInterval(60 * 60)))
+//            completion(timeline)
+//        }
+    }
+    
+    private func buildTimelineEntries(from prayerTimes: PrayerTimesResponse) -> [PrayerComplicationEntry] {
+        let currentDate = Date()
+        let calendar = Calendar.current
+        let dateFmt = makeDateFormatter()
+        let timeFmt = makeTimeFormatter()
+        let todayString = dateFmt.string(from: currentDate)
+
+        guard let todayIqamah = prayerTimes.data.iqamah.first(where: { $0.date == todayString }) else {
+            return [PrayerComplicationEntry(date: currentDate, nextPrayerName: "Fajr", nextPrayerTime: "—")]
+        }
+
+        let prayers: [(name: String, timeStr: String)] = [
+            ("Fajr",    todayIqamah.fajr),
+            ("Zuhr",    todayIqamah.zuhr),
+            ("Asr",     todayIqamah.asr),
+            ("Maghrib", todayIqamah.maghrib),
+            ("Isha",    todayIqamah.isha)
+        ]
+
+        var entries: [PrayerComplicationEntry] = []
+
+        // Insert immediate entry for right now
+        let currentNextPrayer = getNextPrayerTime(from: prayerTimes)
+        entries.append(PrayerComplicationEntry(
+            date: currentDate,
+            nextPrayerName: currentNextPrayer.name,
+            nextPrayerTime: currentNextPrayer.time
+        ))
+
+        // Insert one entry per future prayer transition
+        for i in 0..<prayers.count {
+            let current = prayers[i]
+            let next    = prayers[(i + 1) % prayers.count]
+
+            guard let currentPrayerDate = makeDate(from: current.timeStr, timeFmt, calendar) else { continue }
+            guard currentPrayerDate > currentDate else { continue }
+
+            entries.append(PrayerComplicationEntry(
+                date: currentPrayerDate,
+                nextPrayerName: next.name,
+                nextPrayerTime: next.timeStr
+            ))
+        }
+
+        return entries
     }
     
     // Helper function to load prayer times from shared UserDefaults
     private func loadPrayerTimesFromSharedDefaults() -> PrayerTimesResponse? {
+//        print("DEBUG attempting to load from UserDefaults suite: group.com.AthanPlusCompanion")
+        
         if let sharedDefaults = UserDefaults(suiteName: "group.com.AthanPlusCompanion"),
            let data = sharedDefaults.data(forKey: "prayerTimes") {
+//            print("DEBUG found data in UserDefaults, size: \(data.count) bytes")
             do {
                 let prayerTimes = try JSONDecoder().decode(PrayerTimesResponse.self, from: data)
+//                print("DEBUG decoded successfully, iqamah count: \(prayerTimes.data.iqamah.count)")
                 return prayerTimes
             } catch {
-                print("Failed to decode prayer times: \(error)")
+//                print("DEBUG decode failed: \(error)")
+//                print("Failed to decode prayer times: \(error)")
                 return nil
             }
         }
+//        print("DEBUG no data found in UserDefaults at key 'prayerTimes'")
         return nil
+    }
+    
+    // Shared formatters — built once, reused everywhere
+    
+    // Date formatter for parsing the "date" field in each Iqamah entry (e.g. "2024-09-15")
+    private func makeDateFormatter() -> DateFormatter {
+        let fmt = DateFormatter()
+        fmt.locale = Locale(identifier: "en_US_POSIX")
+        fmt.dateFormat = "EEEE, MMMM d, yyyy"
+        fmt.timeZone = TimeZone(identifier: "America/New_York")
+        return fmt
+    }
+
+    // Time-only formatter matching the formatted output from PrayerTimesModel (e.g. "5:30 AM")
+    private func makeTimeFormatter() -> DateFormatter {
+        let fmt = DateFormatter()
+        fmt.locale = Locale(identifier: "en_US_POSIX")
+        fmt.dateFormat = "h:mm a"
+        fmt.timeZone = TimeZone(identifier: "America/New_York")
+        return fmt
+    }
+    
+    // Helper function to parse today's prayer times into full Date objects anchored to today's calendar date
+    // so comparisons agaisnt 'currentDate' are accurate across midnight boundaries
+    private func makeDate(from timeString: String, _ timeFmt: DateFormatter, _ calendar: Calendar) -> Date? {
+        guard let timeParsed = timeFmt.date(from: timeString) else { return nil }
+        
+        let timeCmpts = calendar.dateComponents([.hour, .minute], from: timeParsed)
+        
+        return calendar.date(
+            bySettingHour: timeCmpts.hour ?? 0,
+            minute: timeCmpts.minute ?? 0,
+            second: 0,
+            of:Date()
+        )
     }
     
     // Function to get the next prayer time
     func getNextPrayerTime(from prayerTimes: PrayerTimesResponse) -> (name: String, time: String) {
         let currentDate = Date()
-
-        let formatter = DateFormatter()
-        formatter.timeStyle = .short
-        formatter.dateStyle = .none
-
-        // Formats current time as 'HH:MM AM/PM'
-        let currentTime = formatter.string(from: currentDate)
+        let calendar = Calendar.current
+        let dateFmt = makeDateFormatter()
+        let timeFmt = makeTimeFormatter()
         
-        var nextPrayerName = ""
-        var nextPrayerTime = ""
+        // Today's date string so we can locate today's and tomorrow's Iqamah entries
+        let todayString = dateFmt.string(from: currentDate)
         
-        if let currTime = formatter.date(from: currentTime), let fajrIqamah = formatter.date(from: prayerTimes.data.iqamah.first?.fajr ?? ""), let zuhrIqamah = formatter.date(from: prayerTimes.data.iqamah.first?.zuhr ?? ""), let asrIqamah = formatter.date(from: prayerTimes.data.iqamah.first?.asr ?? ""), let maghribIqamah = formatter.date(from: prayerTimes.data.iqamah.first?.maghrib ?? ""), let ishaIqamah = formatter.date(from: prayerTimes.data.iqamah.first?.isha ?? "") {
-            
-            // If current time is after Isha or before Fajr, then Fajr is the next prayer
-            if currTime >= ishaIqamah || currTime < fajrIqamah {
-                nextPrayerName = "Fajr"
-                nextPrayerTime = prayerTimes.data.iqamah.first?.fajr ?? ""
-            }
-            else {
-                if currTime >= maghribIqamah && currTime < ishaIqamah {     // If current time is between Maghrib and Isha, then Isha is the next prayer
-                    nextPrayerName = "Isha"
-                    nextPrayerTime = prayerTimes.data.iqamah.first?.isha ?? ""
-                }
-                
-                else if currTime >= asrIqamah && currTime < maghribIqamah { // If current time is between Asr and Maghrib, then Maghrib is the next prayer
-                    nextPrayerName = "Maghrib"
-                    nextPrayerTime = prayerTimes.data.iqamah.first?.maghrib ?? ""
-                }
-                
-                else if currTime >= zuhrIqamah && currTime < asrIqamah {    // If current time is between Zuhr and Asr, then Asr is the next prayer
-                    nextPrayerName = "Asr"
-                    nextPrayerTime = prayerTimes.data.iqamah.first?.asr ?? ""
-                }
-                
-                else if currTime >= fajrIqamah && currTime < zuhrIqamah {   // If current time is between Fajr and Zuhr, then Zuhr is the next prayer
-                    nextPrayerName = "Zuhr"
-                    nextPrayerTime = prayerTimes.data.iqamah.first?.zuhr ?? ""
-                }
-            }
+        // DEBUG
+//        print("DEBUG todayString: '\(todayString)'")
+//        print("DEBUG first iqamah date in array: '\(prayerTimes.data.iqamah.first?.date ?? "nil")'")
+        
+        // Find today's Iqamah entry
+        guard let todayIqamah = prayerTimes.data.iqamah.first(where: { $0.date == todayString }) else {
+            // Fallback: no matching entry for today, return first available Fajr
+            return (name: "G1", time: "0:00 AM")
+            // return (name: "Fajr", time: prayerTimes.data.iqamah.first?.fajr ?? "")
         }
         
-        return (name: nextPrayerName, time: nextPrayerTime)
+        guard
+            let fajrDate = makeDate(from: todayIqamah.fajr, timeFmt, calendar),
+            let zuhrDate = makeDate(from: todayIqamah.zuhr, timeFmt, calendar),
+            let asrDate = makeDate(from: todayIqamah.asr, timeFmt, calendar),
+            let maghribDate = makeDate(from: todayIqamah.maghrib, timeFmt, calendar),
+            let ishaDate = makeDate(from: todayIqamah.isha, timeFmt, calendar)
+        else {
+            return (name: "G2", time: "2:00 AM")
+//            return (name: "Fajr", time: todayIqamah.fajr)
+        }
+
+        
+        // Determine which prayer comes next
+        if currentDate < fajrDate {
+            return (name: "Fajr", time: todayIqamah.fajr)
+        }
+        else if currentDate < zuhrDate {
+            return (name: "Zuhr", time: todayIqamah.zuhr)
+        }
+        else if currentDate < asrDate {
+            return (name: "Asr", time: todayIqamah.asr)
+        }
+        else if currentDate < maghribDate {
+            return (name: "Maghrib", time: todayIqamah.maghrib)
+        }
+        else if currentDate < ishaDate {
+            return (name: "Isha", time: todayIqamah.isha)
+        }
+        else {
+            // past Isha - look up tomorrow's Fajr
+            let tomorrowDate = calendar.date(byAdding: .day, value: 1, to: currentDate) ?? currentDate
+            let tomorrowString = dateFmt.string(from: tomorrowDate)
+            
+            if let tomorrowIqamah = prayerTimes.data.iqamah.first(where: { $0.date == tomorrowString }) {
+//                return (name: "Ftmw", time: "3:00 AM")
+                return (name: "Fajr", time: tomorrowIqamah.fajr)
+            }
+            else {
+                // Tomorrow's data isn't in the cache range - fall back to today's Fajr as a placeholder
+//                return (name: "Ftod", time: "4:00 AM")
+                return (name: "Fajr", time: todayIqamah.fajr)
+            }
+        }
     }
 }
 

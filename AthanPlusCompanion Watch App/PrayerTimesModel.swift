@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import WidgetKit
 //import WatchKit
 
 // Main struct for the response
@@ -68,12 +69,15 @@ class PrayerTimesModel: ObservableObject {
     
     // fetches the local mosque's prayer timings via an API call
     func fetch() async {
+        print("DEBUG fetch() started")
         guard let url = URL(string: "https://masjidal.com/api/v1/time/range?masjid_id=3OA87VLp") else {
+            print("DEBUG fetch() bad URL")
             return
         }
 
         do {
             let (data, _) = try await URLSession.shared.data(from: url)
+            print("DEBUG fetch() got \(data.count) bytes from API")
 
             // Convert to JSON
             var fetchedPrayerTimes = try JSONDecoder().decode(PrayerTimesResponse.self, from: data)
@@ -97,6 +101,19 @@ class PrayerTimesModel: ObservableObject {
 
             // Update the prayerTimes on the main thread safely
             self.prayerTimes = fetchedPrayerTimes
+            
+            // Persist the prayer times to shared App Group so the complication can read it
+            savePrayerTimesToSharedDefaults(prayerTimes: fetchedPrayerTimes)
+            print("DEBUG fetch() saved to UserDefaults")
+            
+            // Reload WidgetKit so the complication can pick up the new data
+            WidgetCenter.shared.reloadAllTimelines()
+            print("DEBUG fetch() triggered widget reload")
+            print("DEBUG iqamah count: \(fetchedPrayerTimes.data.iqamah.count)")
+            print("DEBUG first iqamah entry: \(fetchedPrayerTimes.data.iqamah.first?.date ?? "nil") — fajr: \(fetchedPrayerTimes.data.iqamah.first?.fajr ?? "nil")")
+            print("DEBUG status: \(fetchedPrayerTimes.status)")
+            print("DEBUG messages: \(fetchedPrayerTimes.message)")
+            
         } catch {
             print(error)
         }
@@ -107,6 +124,7 @@ class PrayerTimesModel: ObservableObject {
         let dateFormatter = DateFormatter()
         
         // Input format: time without space between time and AM/PM
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
         dateFormatter.dateFormat = "h:mma"
         
         // Try to parse the input time

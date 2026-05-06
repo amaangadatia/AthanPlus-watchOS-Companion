@@ -16,10 +16,15 @@ struct AthanPlusCompanion_Watch_AppApp: App {
             ContentView()
                 .environmentObject(prayerTimeModel)
         }
-        .backgroundTask(.appRefresh("TIMINGS_REFRESH")) {
+        .backgroundTask(.appRefresh) { context in
             print("Found matching task")
             await prayerTimeModel.fetch()
+            await MainActor.run {
+                scheduleNextBackgroundRefresh()
+            }
             scheduleNextBackgroundRefresh()
+//            await prayerTimeModel.fetch()
+//            scheduleNextBackgroundRefresh()
         }
     }
 }
@@ -28,11 +33,12 @@ struct AthanPlusCompanion_Watch_AppApp: App {
 func scheduleNextBackgroundRefresh() {
     let today = Calendar.current.startOfDay(for: .now)
     if let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today) {
-        WKApplication.shared().scheduleBackgroundRefresh(withPreferredDate: tomorrow, userInfo: "TIMINGS_REFRESH" as NSSecureCoding & NSObjectProtocol) { error in
-            if error != nil {
-                fatalError("*** An error occurred while scheduling the background refresh task. ***")
+        WKApplication.shared().scheduleBackgroundRefresh(withPreferredDate: tomorrow, userInfo: nil) { error in
+            if let error = error {
+                print("*** Error scheduling background refresh: \(error.localizedDescription) ***")
+            } else {
+                print("*** Scheduled! ***")
             }
-            print("*** Scheduled! ***")
         }
     }
 }
