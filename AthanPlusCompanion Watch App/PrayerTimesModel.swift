@@ -69,9 +69,7 @@ class PrayerTimesModel: ObservableObject {
     
     // fetches the local mosque's prayer timings via an API call
     func fetch() async {
-        print("DEBUG fetch() started")
         guard let url = URL(string: "https://masjidal.com/api/v1/time/range?masjid_id=3OA87VLp") else {
-            print("DEBUG fetch() bad URL")
             return
         }
 
@@ -108,11 +106,6 @@ class PrayerTimesModel: ObservableObject {
             
             // Reload WidgetKit so the complication can pick up the new data
             WidgetCenter.shared.reloadAllTimelines()
-            print("DEBUG fetch() triggered widget reload")
-            print("DEBUG iqamah count: \(fetchedPrayerTimes.data.iqamah.count)")
-            print("DEBUG first iqamah entry: \(fetchedPrayerTimes.data.iqamah.first?.date ?? "nil") — fajr: \(fetchedPrayerTimes.data.iqamah.first?.fajr ?? "nil")")
-            print("DEBUG status: \(fetchedPrayerTimes.status)")
-            print("DEBUG messages: \(fetchedPrayerTimes.message)")
             
         } catch {
             print(error)

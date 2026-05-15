@@ -30,7 +30,7 @@ struct PrayerComplicationProvider: TimelineProvider {
         guard let prayerTimes = loadPrayerTimesFromSharedDefaults() else {
             print("DEBUG loadPrayerTimes returned nil — showing placeholder")
             let entry = PrayerComplicationEntry(date: Date(), nextPrayerName: "Fajr", nextPrayerTime: "5:00 AM")
-            let timeline = Timeline(entries: [entry], policy: .after(Date().addingTimeInterval(60 * 60)))
+            let timeline = Timeline(entries: [entry], policy: .after(Date().addingTimeInterval(15 * 60)))
             completion(timeline)
             return
         }
@@ -39,28 +39,19 @@ struct PrayerComplicationProvider: TimelineProvider {
         
         let entries = buildTimelineEntries(from: prayerTimes)
         
-        // .atEnd tells WidgetKit to call getTimeline again after the last entry
-        // so it can fetch fresh data for the next day
-        let timeline = Timeline(entries: entries, policy: .atEnd)
-        completion(timeline)
-
-//        if let prayerTimes = loadPrayerTimesFromSharedDefaults() {
-//            print("DEBUG loadPrayerTimes succeeded")
-//            let nextPrayer = getNextPrayerTime(from: prayerTimes)
-//            let currentDate = Date()
-//            
-//            let entry = PrayerComplicationEntry(date: currentDate, nextPrayerName: nextPrayer.name, nextPrayerTime: nextPrayer.time)
-//            let timeline = Timeline(entries: [entry], policy: .after(currentDate.addingTimeInterval(60 * 60)))
-//            completion(timeline)
-//            return
-//        }
-//        else {
-//            print("DEBUG loadPrayerTimes returned nil - showing placeholder")
-//            let currentDate = Date()
-//            let entry = PrayerComplicationEntry(date: currentDate, nextPrayerName: "Fajr", nextPrayerTime: "5:00 AM")
-//            let timeline = Timeline(entries: [entry], policy: .after(currentDate.addingTimeInterval(60 * 60)))
-//            completion(timeline)
-//        }
+        
+        // If we only got one entry it means today's data wasn't matched (stale cache after midnight)
+        // Retry in 15 mins to give the background refresh to complete and write fresh data
+        if entries.count == 1 {
+            let timeline = Timeline(entries: entries, policy: .after(Date().addingTimeInterval(15 * 60)))
+            completion(timeline)
+        }
+        else {
+            // .atEnd tells WidgetKit to call getTimeline again after the last entry
+            // so it can fetch fresh data for the next day
+            let timeline = Timeline(entries: entries, policy: .atEnd)
+            completion(timeline)
+        }
     }
     
     private func buildTimelineEntries(from prayerTimes: PrayerTimesResponse) -> [PrayerComplicationEntry] {
@@ -71,7 +62,8 @@ struct PrayerComplicationProvider: TimelineProvider {
         let todayString = dateFmt.string(from: currentDate)
 
         guard let todayIqamah = prayerTimes.data.iqamah.first(where: { $0.date == todayString }) else {
-            return [PrayerComplicationEntry(date: currentDate, nextPrayerName: "Fajr", nextPrayerTime: "—")]
+            let fallbackTime = prayerTimes.data.iqamah.first?.fajr ?? "-"
+            return [PrayerComplicationEntry(date: currentDate, nextPrayerName: "Fajr", nextPrayerTime: fallbackTime)]
         }
 
         let prayers: [(name: String, timeStr: String)] = [
@@ -112,22 +104,16 @@ struct PrayerComplicationProvider: TimelineProvider {
     
     // Helper function to load prayer times from shared UserDefaults
     private func loadPrayerTimesFromSharedDefaults() -> PrayerTimesResponse? {
-//        print("DEBUG attempting to load from UserDefaults suite: group.com.AthanPlusCompanion")
         
         if let sharedDefaults = UserDefaults(suiteName: "group.com.AthanPlusCompanion"),
            let data = sharedDefaults.data(forKey: "prayerTimes") {
-//            print("DEBUG found data in UserDefaults, size: \(data.count) bytes")
             do {
                 let prayerTimes = try JSONDecoder().decode(PrayerTimesResponse.self, from: data)
-//                print("DEBUG decoded successfully, iqamah count: \(prayerTimes.data.iqamah.count)")
                 return prayerTimes
             } catch {
-//                print("DEBUG decode failed: \(error)")
-//                print("Failed to decode prayer times: \(error)")
                 return nil
             }
         }
-//        print("DEBUG no data found in UserDefaults at key 'prayerTimes'")
         return nil
     }
     
@@ -175,10 +161,6 @@ struct PrayerComplicationProvider: TimelineProvider {
         
         // Today's date string so we can locate today's and tomorrow's Iqamah entries
         let todayString = dateFmt.string(from: currentDate)
-        
-        // DEBUG
-//        print("DEBUG todayString: '\(todayString)'")
-//        print("DEBUG first iqamah date in array: '\(prayerTimes.data.iqamah.first?.date ?? "nil")'")
         
         // Find today's Iqamah entry
         guard let todayIqamah = prayerTimes.data.iqamah.first(where: { $0.date == todayString }) else {
@@ -235,8 +217,6 @@ struct PrayerComplicationProvider: TimelineProvider {
 
 struct PrayerComplicationView : View {
     var entry: PrayerComplicationEntry
-    
-//    @Environment(\.widgetFamily) var family
 
     var body: some View {
         ZStack {
