@@ -75,12 +75,21 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
+            BlueprintIdentifier = "51CD3D652C91E7A700C5A75D"
+            BuildableName = "ComplicationProviderExtension.appex"
+            BlueprintName = "ComplicationProviderExtension"
+            ReferencedContainer = "container:AthanPlusCompanion.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
             BlueprintIdentifier = "5180EC712C8F90A700C68EEC"
             BuildableName = "AthanPlusCompanion Watch App.app"
             BlueprintName = "AthanPlusCompanion Watch App"
             ReferencedContainer = "container:AthanPlusCompanion.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
       <EnvironmentVariables>
          <EnvironmentVariable
             key = "_XCWidgetKind"
