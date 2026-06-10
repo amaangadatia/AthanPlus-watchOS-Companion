@@ -7,8 +7,6 @@
 
 import Foundation
 import SwiftUI
-import WidgetKit
-//import WatchKit
 
 // Main struct for the response
 struct PrayerTimesResponse: Codable {
@@ -67,79 +65,19 @@ class PrayerTimesModel: ObservableObject {
         message: ["No data available"]
     )
     
-    // fetches the local mosque's prayer timings via an API call
-    func fetch() async {
-        guard let url = URL(string: "https://masjidal.com/api/v1/time/range?masjid_id=3OA87VLp") else {
+    // Fetches the local mosque's prayer timings for today via an API call and updates the watch app UI
+    // The complication fetches independently via WidgetKit - this
+    // only exists to keep ContentView in sync.
+    func fetch() {
+        guard
+            let defaults = UserDefaults(suiteName: "group.com.AthanPlusCompanion"),
+            let data = defaults.data(forKey: "prayerTimes"),
+            let decoded = try? JSONDecoder().decode(PrayerTimesResponse.self, from: data)
+        else {
+            print("DEBUG PrayerTimesModel.fetch() - no data in UserDefaults yet")
             return
         }
-
-        do {
-            let (data, _) = try await URLSession.shared.data(from: url)
-            print("DEBUG fetch() got \(data.count) bytes from API")
-
-            // Convert to JSON
-            var fetchedPrayerTimes = try JSONDecoder().decode(PrayerTimesResponse.self, from: data)
-
-            // Format times for each salah and iqamah entry
-            for index in fetchedPrayerTimes.data.salah.indices {
-                fetchedPrayerTimes.data.salah[index].fajr = formatTime(fetchedPrayerTimes.data.salah[index].fajr) ?? fetchedPrayerTimes.data.salah[index].fajr
-                fetchedPrayerTimes.data.salah[index].zuhr = formatTime(fetchedPrayerTimes.data.salah[index].zuhr) ?? fetchedPrayerTimes.data.salah[index].zuhr
-                fetchedPrayerTimes.data.salah[index].asr = formatTime(fetchedPrayerTimes.data.salah[index].asr) ?? fetchedPrayerTimes.data.salah[index].asr
-                fetchedPrayerTimes.data.salah[index].maghrib = formatTime(fetchedPrayerTimes.data.salah[index].maghrib) ?? fetchedPrayerTimes.data.salah[index].maghrib
-                fetchedPrayerTimes.data.salah[index].isha = formatTime(fetchedPrayerTimes.data.salah[index].isha) ?? fetchedPrayerTimes.data.salah[index].isha
-            }
-
-            for index in fetchedPrayerTimes.data.iqamah.indices {
-                fetchedPrayerTimes.data.iqamah[index].fajr = formatTime(fetchedPrayerTimes.data.iqamah[index].fajr) ?? fetchedPrayerTimes.data.iqamah[index].fajr
-                fetchedPrayerTimes.data.iqamah[index].zuhr = formatTime(fetchedPrayerTimes.data.iqamah[index].zuhr) ?? fetchedPrayerTimes.data.iqamah[index].zuhr
-                fetchedPrayerTimes.data.iqamah[index].asr = formatTime(fetchedPrayerTimes.data.iqamah[index].asr) ?? fetchedPrayerTimes.data.iqamah[index].asr
-                fetchedPrayerTimes.data.iqamah[index].maghrib = formatTime(fetchedPrayerTimes.data.iqamah[index].maghrib) ?? fetchedPrayerTimes.data.iqamah[index].maghrib
-                fetchedPrayerTimes.data.iqamah[index].isha = formatTime(fetchedPrayerTimes.data.iqamah[index].isha) ?? fetchedPrayerTimes.data.iqamah[index].isha
-            }
-
-            // Update the prayerTimes on the main thread safely
-            self.prayerTimes = fetchedPrayerTimes
-            
-            // Persist the prayer times to shared App Group so the complication can read it
-            savePrayerTimesToSharedDefaults(prayerTimes: fetchedPrayerTimes)
-            print("DEBUG fetch() saved to UserDefaults")
-            
-            // Reload WidgetKit so the complication can pick up the new data
-            WidgetCenter.shared.reloadAllTimelines()
-            
-        } catch {
-            print(error)
-        }
-    }
-    
-    // Helper function to reformat the time
-    func formatTime(_ time: String) -> String? {
-        let dateFormatter = DateFormatter()
         
-        // Input format: time without space between time and AM/PM
-        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-        dateFormatter.dateFormat = "h:mma"
-        
-        // Try to parse the input time
-        if let date = dateFormatter.date(from: time) {
-            // Output format: time with a space between time and AM/PM
-            dateFormatter.dateFormat = "h:mm a"
-            return dateFormatter.string(from: date)
-        }
-        
-        return nil // Return nil if the time format is invalid
-    }
-    
-    // Store the fetched prayer times in the shared UserDefaults
-    private func savePrayerTimesToSharedDefaults(prayerTimes: PrayerTimesResponse) {
-        if let sharedDefaults = UserDefaults(suiteName: "group.com.AthanPlusCompanion") {
-            do {
-                let encodedPrayerTimes = try JSONEncoder().encode(prayerTimes)
-                sharedDefaults.setValue(encodedPrayerTimes, forKey: "prayerTimes")
-            }
-            catch {
-                print("Failed to encode prayer times: \(error)")
-            }
-        }
+        self.prayerTimes = decoded
     }
 }
