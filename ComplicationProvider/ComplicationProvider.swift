@@ -40,14 +40,25 @@ struct PrayerComplicationProvider: TimelineProvider {
             let (today, tomorrow) = await (todayResponse, tomorrowResponse)
 
             if let today = today {
-                savePrayerTimesToSharedDefaults(prayerTimes: today)
+                savePrayerTimesToSharedDefaults(prayerTimes: today, key: "prayerTimes")
+            }
+            if let tomorrow = tomorrow {
+                savePrayerTimesToSharedDefaults(prayerTimes: tomorrow, key: "prayerTimesTmrw")
             }
 
-            let entries = buildTimelineEntries(today: today, tomorrow: tomorrow)
-
-            let dayAfterTmrw = easternCalendar.startOfDay(
-                for: easternCalendar.date(byAdding: .day, value: 2, to: now) ?? now
-            )
+            let entries = buildTimelineEntries(today: today, tomorrow: tomorrow, now: now)
+            
+            let timeFmt = makeTimeFormatter()
+            let tmrwDate = easternCalendar.date(byAdding: .day, value: 1, to: now) ?? now
+            
+            let refreshDate: Date
+            if let tmrwIqamah = tomorrow?.data.iqamah.first,
+               let tmrwIsha = makeDate(from: tmrwIqamah.isha, timeFmt, easternCalendar, relativeTo: tmrwDate) {
+                refreshDate = tmrwIsha.addingTimeInterval(60)
+            }
+            else {
+                refreshDate = now.addingTimeInterval(6 * 3600)
+            }
             
 //            let parts = tomorrow?.data.iqamah.first?.isha.split(separator: " ")
 //            if let time = parts.first {
@@ -57,9 +68,6 @@ struct PrayerComplicationProvider: TimelineProvider {
 //                let substring = time[start..<end]
 //                let minutes = String(substring)
 //            }
-            
-            
-            let refreshDate = dayAfterTmrw.addingTimeInterval(-120)
 
             let timeline = Timeline(entries: entries, policy: .after(refreshDate))
             completion(timeline)
@@ -111,24 +119,27 @@ struct PrayerComplicationProvider: TimelineProvider {
     
     // MARK: - Timeline Building
     
-    private func buildTimelineEntries(today: PrayerTimesResponse?, tomorrow: PrayerTimesResponse?) -> [PrayerComplicationEntry] {
-        let currentDate = Date()
+    private func buildTimelineEntries(today: PrayerTimesResponse?, tomorrow: PrayerTimesResponse?, now: Date) -> [PrayerComplicationEntry] {
         let calendar = makeEasternCalendar()
-        let dateFmt = makeDateFormatter()
-        let timeFmt = makeTimeFormatter()
-        let todayString = dateFmt.string(from: currentDate)
+        let dateFmt  = makeDateFormatter()
+        let timeFmt  = makeTimeFormatter()
+        let todayString = dateFmt.string(from: now)
 
         guard let today,
               let todayIqamah = today.data.iqamah.first(where: { $0.date == todayString })
         else {
-            // No data at all - show placeholder and retry in 15 mins
-            print("DEBUG buildTimelineEntries fallback hit")
-            print("DEBUG todayString: '\(todayString)'")
-            print("DEBUG available iqamah dates: \(today?.data.iqamah.map { $0.date } ?? [])")
-            return [PrayerComplicationEntry(date: currentDate, nextPrayerName: "Fajr", nextPrayerTime: "-")]
+            print("DEBUG buildTimelineEntries fallback — todayString: '\(dateFmt.string(from: now))'")
+            print("DEBUG available: \(today?.data.iqamah.map { $0.date } ?? [])")
+            return [PrayerComplicationEntry(date: now, nextPrayerName: "Fajr", nextPrayerTime: "-")]
         }
 
-        let prayers: [(name: String, timeStr: String)] = [
+        let tomorrowFajr = tomorrow?.data.iqamah.first?.fajr ?? todayIqamah.fajr
+        let tomorrowIqamah = tomorrow?.data.iqamah.first
+
+        var entries: [PrayerComplicationEntry] = []
+
+        // --- TODAY'S ENTRIES ---
+        let todayPrayers: [(name: String, timeStr: String)] = [
             ("Fajr",    todayIqamah.fajr),
             ("Zuhr",    todayIqamah.zuhr),
             ("Asr",     todayIqamah.asr),
@@ -136,59 +147,94 @@ struct PrayerComplicationProvider: TimelineProvider {
             ("Isha",    todayIqamah.isha)
         ]
 
-        // Tomorrow's Fajr - use fetched data if available, else fallback to today's Fajr
-        let tomorrowFajr = tomorrow?.data.iqamah.first?.fajr ?? todayIqamah.fajr
-        
-        var entries: [PrayerComplicationEntry] = []
-
-        // Insert immediate entry for right now
-        let currentNextPrayer = getNextPrayerTime(
+        // Immediate entry for right now
+        let currentNext = getNextPrayerTime(
             todayIqamah: todayIqamah,
             tomorrowFajr: tomorrowFajr,
-            currentDate: currentDate,
+            currentDate: now,
             timeFmt: timeFmt,
             calendar: calendar
         )
         entries.append(PrayerComplicationEntry(
-            date: currentDate,
-            nextPrayerName: currentNextPrayer.name,
-            nextPrayerTime: currentNextPrayer.time
+            date: now,
+            nextPrayerName: currentNext.name,
+            nextPrayerTime: currentNext.time
         ))
 
-        // Insert one entry per future prayer transition
-        for i in 0..<prayers.count {
-            let current = prayers[i]
-            
-            guard let currentPrayerDate = makeDate(from: current.timeStr, timeFmt, calendar) else { continue }
-            guard currentPrayerDate > currentDate else { continue }
-            
-            // After Isha, show tomorrow's Fajr
+        // One entry per remaining prayer transition today
+        for i in 0..<todayPrayers.count {
+            let current = todayPrayers[i]
+            guard let prayerDate = makeDate(from: current.timeStr, timeFmt, calendar, relativeTo: now) else { continue }
+            guard prayerDate > now else { continue }
+
             let nextName: String
             let nextTime: String
-            
             if current.name == "Isha" {
                 nextName = "Fajr"
                 nextTime = tomorrowFajr
-            }
-            else {
-                let next = prayers[(i + 1) % prayers.count]
+            } else {
+                let next = todayPrayers[(i + 1) % todayPrayers.count]
                 nextName = next.name
                 nextTime = next.timeStr
             }
-        
             entries.append(PrayerComplicationEntry(
-                date: currentPrayerDate,
+                date: prayerDate,
                 nextPrayerName: nextName,
                 nextPrayerTime: nextTime
             ))
         }
-        
-        // Add an explicit midnight entry showing tomorrow's Fajr.
-        // This bridges the gap between the Isha entry and when getTimeline
-        // fires again after midnight, preventing "Fajr -" placeholder from appearing.
-        let tmrwMidnight = calendar.startOfDay(for: calendar.date(byAdding: .day, value: 1, to: currentDate) ?? currentDate)
-        if tmrwMidnight > currentDate {
-            entries.append(PrayerComplicationEntry(date: tmrwMidnight, nextPrayerName: "Fajr", nextPrayerTime: tomorrowFajr))
+
+        // --- TOMORROW'S ENTRIES ---
+        // Build these unconditionally from tomorrowFajr so the timeline
+        // covers midnight even if getTimeline fires late
+        let tomorrowDate = calendar.date(byAdding: .day, value: 1, to: now) ?? now
+        let tomorrowMidnight = calendar.startOfDay(for: tomorrowDate)
+
+        if let tomorrowIqamah = tomorrowIqamah {
+            let tomorrowPrayers: [(name: String, timeStr: String)] = [
+                ("Fajr",    tomorrowIqamah.fajr),
+                ("Zuhr",    tomorrowIqamah.zuhr),
+                ("Asr",     tomorrowIqamah.asr),
+                ("Maghrib", tomorrowIqamah.maghrib),
+                ("Isha",    tomorrowIqamah.isha)
+            ]
+
+            // Midnight entry — shows Fajr as soon as the new day starts
+            entries.append(PrayerComplicationEntry(
+                date: tomorrowMidnight,
+                nextPrayerName: "Fajr",
+                nextPrayerTime: tomorrowIqamah.fajr
+            ))
+
+            // One entry per prayer transition tomorrow
+            for i in 0..<tomorrowPrayers.count {
+                let current = tomorrowPrayers[i]
+                guard let prayerDate = makeDate(from: current.timeStr, timeFmt, calendar, relativeTo: tomorrowDate) else { continue }
+
+                let nextName: String
+                let nextTime: String
+                if current.name == "Isha" {
+                    // We don't have day-after-tomorrow's data, show Fajr as placeholder
+                    nextName = "Fajr"
+                    nextTime = tomorrowIqamah.fajr
+                } else {
+                    let next = tomorrowPrayers[(i + 1) % tomorrowPrayers.count]
+                    nextName = next.name
+                    nextTime = next.timeStr
+                }
+                entries.append(PrayerComplicationEntry(
+                    date: prayerDate,
+                    nextPrayerName: nextName,
+                    nextPrayerTime: nextTime
+                ))
+            }
+        } else {
+            // Tomorrow fetch failed — at least cover midnight with what we have
+            entries.append(PrayerComplicationEntry(
+                date: tomorrowMidnight,
+                nextPrayerName: "G4",
+                nextPrayerTime: "-"
+            ))
         }
 
         return entries
@@ -227,11 +273,11 @@ struct PrayerComplicationProvider: TimelineProvider {
     // MARK: - Persistence
     
     // Keep UserDefaults in sync so the watch app UI reflects the latest data
-    private func savePrayerTimesToSharedDefaults(prayerTimes: PrayerTimesResponse) {
+    private func savePrayerTimesToSharedDefaults(prayerTimes: PrayerTimesResponse, key: String) {
         guard let defaults = UserDefaults(suiteName: "group.com.AthanPlusCompanion") else { return }
             do {
                 let encodedPrayerTimes = try JSONEncoder().encode(prayerTimes)
-                defaults.set(encodedPrayerTimes, forKey: "prayerTimes")
+                defaults.set(encodedPrayerTimes, forKey: key)
             }
             catch {
                 print("Failed to encode prayer times: \(error)")
@@ -270,16 +316,14 @@ struct PrayerComplicationProvider: TimelineProvider {
     
     // Helper function to parse today's prayer times into full Date objects anchored to today's calendar date
     // so comparisons agaisnt 'currentDate' are accurate across midnight boundaries
-    private func makeDate(from timeString: String, _ timeFmt: DateFormatter, _ calendar: Calendar) -> Date? {
+    private func makeDate(from timeString: String, _ timeFmt: DateFormatter, _ calendar: Calendar, relativeTo base: Date = Date()) -> Date? {
         guard let timeParsed = timeFmt.date(from: timeString) else { return nil }
-        
-        let timeCmpts = calendar.dateComponents([.hour, .minute], from: timeParsed)
-        
+        let components = calendar.dateComponents([.hour, .minute], from: timeParsed)
         return calendar.date(
-            bySettingHour: timeCmpts.hour ?? 0,
-            minute: timeCmpts.minute ?? 0,
+            bySettingHour: components.hour ?? 0,
+            minute: components.minute ?? 0,
             second: 0,
-            of: Date()
+            of: base   // ← anchored to whatever date is passed in
         )
     }
     
